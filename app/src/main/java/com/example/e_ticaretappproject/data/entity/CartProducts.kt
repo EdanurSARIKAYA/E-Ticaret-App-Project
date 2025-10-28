@@ -2,7 +2,7 @@ package com.example.e_ticaretappproject.data.entity
 
 
 data class CartProducts(
-    val sepetid:Int,
+    val sepetId:Int,
     val ad:String,
     val resim:String,
     val kategori: String,

@@ -35,7 +35,7 @@ fun MainScreen(viewModel: MainScreenViewModel,navController: NavController){
                 title = "Hoş Geldiniz",
                 showSearch = true,
                 showCart = true,
-                onCartClick = { /* Sepet sayfasına yönlendirme */ },
+                onCartClick = { navController.navigate("cart") },
                 onSearchChange = { viewModel.searchProducts(it) }
             )
             Spacer(modifier = Modifier.height(16.dp))

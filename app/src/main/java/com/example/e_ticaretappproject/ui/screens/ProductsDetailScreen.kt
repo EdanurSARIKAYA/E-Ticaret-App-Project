@@ -21,17 +21,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.e_ticaretappproject.data.entity.Products
 import com.example.e_ticaretappproject.R
+import com.example.e_ticaretappproject.data.entity.CartProducts
 import com.example.e_ticaretappproject.ui.components.CustomTopAppBar
+import com.example.e_ticaretappproject.ui.viewmodels.CartScreenViewModel
 import com.example.e_ticaretappproject.ui.viewmodels.MainScreenViewModel
+import com.example.e_ticaretappproject.ui.viewmodels.ProductDetailsScreenViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun ProductsDetailScreen(
     productId: Int,
     navController: NavController,
-    onAddToCart: (Products) -> Unit = {},
-    viewModel: MainScreenViewModel
-
+    viewModel: MainScreenViewModel,
+    cartScreenViewModel: CartScreenViewModel,
+    detailsScreenViewModel: ProductDetailsScreenViewModel
 ) {
 
     val product = viewModel.productsList.observeAsState(listOf()).value.find { it.id == productId }
@@ -47,7 +50,23 @@ fun ProductsDetailScreen(
             },
             bottomBar = {
                 Button(
-                    onClick = { onAddToCart(currentProduct) },
+                    onClick = {
+                        val cartProduct = CartProducts(
+                            sepetId = 0,
+                            ad = currentProduct.ad,
+                            resim = currentProduct.resim,
+                            kategori = currentProduct.kategori,
+                            fiyat = currentProduct.fiyat,
+                            marka = currentProduct.marka,
+                            siparisAdeti = 1,
+                            kullaniciAdi = "edanur_sarikaya"
+                        )
+                        detailsScreenViewModel.insertToCart(cartProduct) {
+                            cartScreenViewModel.loadCartProducts()
+                            navController.navigate("cart")
+                        }
+
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(72.dp)
@@ -157,7 +176,7 @@ fun ProductsDetailScreen(
 
                 // Ürün açıklaması
                 Text(
-                    text = "Bu ürün hakkında detaylı bilgi buraya gelecek. Örneğin özellikleri, boyutu, markası vb.",
+                    text = "${currentProduct.marka}",
                     fontSize = 16.sp,
                     color = Color.DarkGray,
                     lineHeight = 22.sp

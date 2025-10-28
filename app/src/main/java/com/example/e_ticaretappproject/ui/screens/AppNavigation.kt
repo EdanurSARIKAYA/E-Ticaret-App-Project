@@ -10,12 +10,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.e_ticaretappproject.ui.viewmodels.CartScreenViewModel
 import com.example.e_ticaretappproject.ui.viewmodels.MainScreenViewModel
+import com.example.e_ticaretappproject.ui.viewmodels.ProductDetailsScreenViewModel
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
     mainScreenViewModel: MainScreenViewModel,
+    cartScreenViewModel: CartScreenViewModel,
+    productDetailsScreenViewModel: ProductDetailsScreenViewModel,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -36,11 +40,13 @@ fun AppNavigation(
             ProductsDetailScreen(
                 productId = productId,
                 navController = navController,
-                viewModel = mainScreenViewModel
+                viewModel = mainScreenViewModel,
+                cartScreenViewModel = cartScreenViewModel,
+                detailsScreenViewModel = productDetailsScreenViewModel
             )
         }
         composable("favorites") { FavoritesScreen(navController, viewModel = mainScreenViewModel) }
-        composable("cart") { CartScreen() }
-        composable("profile") { CartScreen() }
+        composable("cart") { CartScreen(viewModel = cartScreenViewModel,navController = navController) }
+        //composable("profile") { CartScreen() }
     }
 }

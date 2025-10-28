@@ -48,7 +48,7 @@ fun FavoritesScreen(navController: NavController,viewModel: MainScreenViewModel 
                 title = "FAVORİLER",
                 showSearch = false,
                 showCart = true,
-                onCartClick = {}
+                onCartClick = {navController.navigate("cart")}
             )
         }
     ) { innerPadding ->

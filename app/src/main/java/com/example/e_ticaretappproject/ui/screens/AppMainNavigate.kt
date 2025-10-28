@@ -24,6 +24,8 @@ fun AppMainNavigate(
         AppNavigation(
             navController = navController,
             mainScreenViewModel = mainScreenViewModel,
+            cartScreenViewModel= cartScreenViewModel,
+            productDetailsScreenViewModel= productDetailsScreenViewModel,
             modifier = Modifier.padding(innerPadding)
         )
     }

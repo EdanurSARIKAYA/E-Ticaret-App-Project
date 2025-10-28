@@ -13,7 +13,7 @@ import javax.inject.Inject
 class ProductDetailsScreenViewModel @Inject constructor(var productsRepository: ProductsRepository): ViewModel() {
     var kullaniciAdi = "edanur_sarikaya"
 
-    fun insertToCart(cartProducts: CartProducts){
+    fun insertToCart(cartProducts: CartProducts, onSuccess: (() -> Unit)? = null){
         CoroutineScope(Dispatchers.Main).launch {
             productsRepository.insertToCart(
                 cartProducts.ad,
@@ -22,8 +22,9 @@ class ProductDetailsScreenViewModel @Inject constructor(var productsRepository: 
                 cartProducts.fiyat,
                 cartProducts.marka,
                 cartProducts.siparisAdeti,
-                cartProducts.kullaniciAdi,
+                 kullaniciAdi
             )
+            onSuccess?.invoke()
         }
     }
 }
