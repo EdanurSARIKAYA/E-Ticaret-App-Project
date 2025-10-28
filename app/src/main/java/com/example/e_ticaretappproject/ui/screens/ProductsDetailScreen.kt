@@ -9,7 +9,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
@@ -38,7 +42,10 @@ fun ProductsDetailScreen(
 ) {
 
     val product = viewModel.productsList.observeAsState(listOf()).value.find { it.id == productId }
+    var quantity by remember { mutableStateOf(1) }
+
     product?.let { currentProduct ->
+        val totalPrice = currentProduct.fiyat * quantity
         Scaffold(
             topBar = {
                 CustomTopAppBar(
@@ -49,6 +56,7 @@ fun ProductsDetailScreen(
                 )
             },
             bottomBar = {
+
                 Button(
                     onClick = {
                         val cartProduct = CartProducts(
@@ -56,9 +64,9 @@ fun ProductsDetailScreen(
                             ad = currentProduct.ad,
                             resim = currentProduct.resim,
                             kategori = currentProduct.kategori,
-                            fiyat = currentProduct.fiyat,
+                            fiyat = currentProduct.fiyat*quantity,
                             marka = currentProduct.marka,
-                            siparisAdeti = 1,
+                            siparisAdeti = quantity,
                             kullaniciAdi = "edanur_sarikaya"
                         )
                         detailsScreenViewModel.insertToCart(cartProduct) {
@@ -171,6 +179,42 @@ fun ProductsDetailScreen(
                     fontWeight = FontWeight.ExtraBold,
                     color = colorResource(R.color.red2)
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // + / - butonları
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Button(
+                            onClick = { if (quantity > 1) quantity-- },
+                            modifier = Modifier.size(36.dp),
+                            contentPadding = PaddingValues(0.dp)
+                        ) { Text("-") }
+
+                        Text(
+                            "$quantity",
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            fontSize = 18.sp
+                        )
+
+                        Button(
+                            onClick = { quantity++ },
+                            modifier = Modifier.size(36.dp),
+                            contentPadding = PaddingValues(0.dp)
+                        ) { Text("+") }
+                    }
+
+                    // Toplam fiyat
+                    Text(
+                        text = "$totalPrice TL",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = colorResource(R.color.red2)
+                    )
+                }
+
 
                 Spacer(modifier = Modifier.height(16.dp))
 

@@ -135,11 +135,9 @@ fun CartScreen(viewModel: CartScreenViewModel,
                         )
                     }
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Button(onClick = {}) { Text("-") }
+
                     Text("${products.siparisAdeti}", modifier = Modifier.padding(horizontal = 8.dp))
-                    Button(onClick = {}) { Text("+") }
-                }
+
 
 
                 Text(

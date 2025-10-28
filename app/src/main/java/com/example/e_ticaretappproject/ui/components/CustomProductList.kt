@@ -101,17 +101,12 @@ fun CustomProduct(
                     onClick = { onFavoriteToggle(products) },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(8.dp)
-                        .size(24.dp)
-                        .background(
-                            Color.White.copy(alpha = 0.7f),
-                            shape = RoundedCornerShape(12.dp)
-                        )
                 ) {
                     Icon(
                         imageVector = if (products.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = "Favori",
-                        tint = if (products.isFavorite) Color.Red else Color.Gray
+                        tint = if (products.isFavorite) colorResource(R.color.red) else Color.Gray,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
     }
