@@ -15,21 +15,31 @@ import javax.inject.Inject
 @HiltViewModel
 class CartScreenViewModel @Inject constructor (var productsRepository: ProductsRepository) : ViewModel() {
     var cartProduct = MutableLiveData<List<CartProducts>>()
-    var kullaniciAdi= "edanur_sarikaya"
+    var kullaniciAdi = "edanur_sarikaya"
 
     init {
         loadCartProducts()
     }
 
-    fun loadCartProducts(){
+    fun loadCartProducts() {
         CoroutineScope(Dispatchers.Main).launch {
             cartProduct.value = productsRepository.loadCartProducts(kullaniciAdi).urunler_sepeti
         }
     }
 
-    fun deleteFromCart(sepetId: Int){
+    fun deleteFromCart(sepetId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             productsRepository.deleteFromCart(sepetId, kullaniciAdi)
+            loadCartProducts()
+        }
+    }
+
+    fun clearCart() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val currentCart = cartProduct.value ?: return@launch
+            currentCart.forEach { product ->
+                deleteFromCart(product.sepetId)
+            }
             loadCartProducts()
         }
     }
