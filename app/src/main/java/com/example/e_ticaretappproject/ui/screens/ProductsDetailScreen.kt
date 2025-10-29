@@ -1,12 +1,17 @@
 package com.example.e_ticaretappproject.ui.screens
 
+import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,8 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -31,6 +41,7 @@ import com.example.e_ticaretappproject.ui.viewmodels.CartScreenViewModel
 import com.example.e_ticaretappproject.ui.viewmodels.MainScreenViewModel
 import com.example.e_ticaretappproject.ui.viewmodels.ProductDetailsScreenViewModel
 import com.skydoves.landscapist.glide.GlideImage
+
 
 @Composable
 fun ProductsDetailScreen(
@@ -49,76 +60,117 @@ fun ProductsDetailScreen(
         Scaffold(
             topBar = {
                 CustomTopAppBar(
-                    title = currentProduct.ad,
+                    title = "${currentProduct.kategori} / ${currentProduct.ad}",
                     showSearch = false,
-                    showCart = true,
-                    onCartClick = {navController.navigate("cart")}
+                    showCart = false,
+                    onCartClick = {}
                 )
             },
             bottomBar = {
-
-                Button(
-                    onClick = {
-                        val cartProduct = CartProducts(
-                            sepetId = 0,
-                            ad = currentProduct.ad,
-                            resim = currentProduct.resim,
-                            kategori = currentProduct.kategori,
-                            fiyat = currentProduct.fiyat*quantity,
-                            marka = currentProduct.marka,
-                            siparisAdeti = quantity,
-                            kullaniciAdi = "edanur_sarikaya"
-                        )
-                        detailsScreenViewModel.insertToCart(cartProduct) {
-                            cartScreenViewModel.loadCartProducts()
-                            navController.navigate("cart")
-                        }
-
-                    },
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(72.dp)
-                        .padding(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.red2),
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(12.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Sepete Ekle", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = "$totalPrice TL",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = colorResource(R.color.red2)
+                    )
+                    Button(
+                        onClick = {
+                            val cartProduct = CartProducts(
+                                sepetId = 0,
+                                ad = currentProduct.ad,
+                                resim = currentProduct.resim,
+                                kategori = currentProduct.kategori,
+                                fiyat = currentProduct.fiyat * quantity,
+                                marka = currentProduct.marka,
+                                siparisAdeti = quantity,
+                                kullaniciAdi = "edanur_sarikaya"
+                            )
+                            detailsScreenViewModel.insertToCart(cartProduct) {
+                                cartScreenViewModel.loadCartProducts()
+                                navController.navigate("cart")
+                            }
+
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(72.dp)
+                            .padding(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.red2),
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(text = "Sepete Ekle", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }
-        ) { innerPadding ->
+            },
+        content = { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(horizontal = 8.dp),
+                    .verticalScroll(rememberScrollState())
+                    .padding( 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
 
-                Box(
-                    modifier = Modifier.padding(24.dp)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(360.dp)
-                            .border(
-                                width = 2.dp,
-                                color = colorResource(R.color.pink),
-                                shape = RoundedCornerShape(16.dp)
-                            ),
-                        shape = RoundedCornerShape(24.dp),
-                        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.white))
-                    ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Ödül",
+                        tint = colorResource(R.color.yellow),
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = colorResource(R.color.red2),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append(currentProduct.kategori)
+                            }
+                            append(" Kategorisinde En Çok Favorilenen")
+                        },
+                        fontSize = 28.sp,
+                        fontFamily = FontFamily.Cursive,
+                        color = Color.Black
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(216.dp)
+                        .border(
+                            width = 2.dp,
+                            color = colorResource(R.color.pink),
+                            shape = RoundedCornerShape(16.dp)
+                        ),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(containerColor = colorResource(R.color.white))
+                ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
                         GlideImage(
                             imageModel = "http://kasimadalan.pe.hu/urunler/resimler/${product.resim}",
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize().padding(vertical = 24.dp),
+                            contentScale = ContentScale.Fit
                         )
 
-                    }
                     IconButton(
                         onClick = { viewModel.toggleFavorite(currentProduct.id) },
                         modifier = Modifier
@@ -139,94 +191,101 @@ fun ProductsDetailScreen(
                     Box(
                         modifier = Modifier
                             .align(Alignment.TopStart)
-                            .padding(8.dp)
-                            .background(Color(0x80D53131), shape = RoundedCornerShape(8.dp))
-                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                            .padding(12.dp)
+                            .background(colorResource(R.color.green), shape = RoundedCornerShape(8.dp))
                     ) {
                         Text(
                             text = "Kargo Bedava",
-                            color = Color.White,
+                            color = colorResource(R.color.white),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
                     }
-
-
                 }
-
+            }
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Ürün adı ve kategori
-                Text(
-                    text = currentProduct.ad,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                Text(
-                    text = currentProduct.kategori,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.Gray
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(verticalArrangement = Arrangement.Center) {
+                            Text(
+                                text = currentProduct.marka.uppercase(),
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                color = Color.Black
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = currentProduct.ad,
+                                fontSize = 24.sp,
+                                color = Color.DarkGray
+                            )
+                        }
 
-                // Fiyat
-                Text(
-                    text = "${currentProduct.fiyat} TL",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = colorResource(R.color.red2)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                // Ürün açıklaması
-                Text(
-                    text = "${currentProduct.marka}",
-                    fontSize = 16.sp,
-                    color = Color.DarkGray,
-                    lineHeight = 22.sp
-                )
+                        Text(
+                            text = "${currentProduct.fiyat} TL",
+                            fontSize = 32.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = colorResource(R.color.black)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    // + / - butonları
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                         Button(
                             onClick = { if (quantity > 1) quantity-- },
-                            modifier = Modifier.size(36.dp),
+                            modifier = Modifier.size(48.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(R.color.red2),
+                                contentColor = Color.White
+                            ),
                             contentPadding = PaddingValues(0.dp)
-                        ) { Text("-") }
+                        ) { Text("-", fontSize = 32.sp) }
 
                         Text(
                             "$quantity",
                             modifier = Modifier.padding(horizontal = 16.dp),
-                            fontSize = 18.sp
+                            fontSize = 40.sp
                         )
 
                         Button(
                             onClick = { quantity++ },
-                            modifier = Modifier.size(36.dp),
+                            modifier = Modifier.size(48.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(R.color.red2),
+                                contentColor = Color.White
+                            ),
                             contentPadding = PaddingValues(0.dp)
-                        ) { Text("+") }
+                        ) { Text("+", fontSize = 32.sp) }
                     }
 
-                    // Toplam fiyat
-                    Text(
-                        text = "$totalPrice TL",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = colorResource(R.color.red2)
-                    )
                 }
-
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-
             }
         }
+        )
     }
-}
+    }
+
