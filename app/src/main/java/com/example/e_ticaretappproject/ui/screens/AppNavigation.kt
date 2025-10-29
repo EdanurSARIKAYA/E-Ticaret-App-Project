@@ -47,6 +47,6 @@ fun AppNavigation(
         }
         composable("favorites") { FavoritesScreen(navController, viewModel = mainScreenViewModel) }
         composable("cart") { CartScreen(viewModel = cartScreenViewModel,navController = navController) }
-        //composable("profile") { CartScreen() }
+
     }
 }

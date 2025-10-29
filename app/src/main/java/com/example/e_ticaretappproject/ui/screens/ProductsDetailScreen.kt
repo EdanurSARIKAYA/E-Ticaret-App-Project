@@ -52,7 +52,7 @@ fun ProductsDetailScreen(
                     title = currentProduct.ad,
                     showSearch = false,
                     showCart = true,
-                    onCartClick = {}
+                    onCartClick = {navController.navigate("cart")}
                 )
             },
             bottomBar = {
@@ -78,7 +78,7 @@ fun ProductsDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(72.dp)
-                        .padding(16.dp),
+                        .padding(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(R.color.red2),
                         contentColor = Color.White
@@ -93,10 +93,10 @@ fun ProductsDetailScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
                     modifier = Modifier.padding(24.dp)
@@ -179,7 +179,14 @@ fun ProductsDetailScreen(
                     fontWeight = FontWeight.ExtraBold,
                     color = colorResource(R.color.red2)
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+                // Ürün açıklaması
+                Text(
+                    text = "${currentProduct.marka}",
+                    fontSize = 16.sp,
+                    color = Color.DarkGray,
+                    lineHeight = 22.sp
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -218,13 +225,7 @@ fun ProductsDetailScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Ürün açıklaması
-                Text(
-                    text = "${currentProduct.marka}",
-                    fontSize = 16.sp,
-                    color = Color.DarkGray,
-                    lineHeight = 22.sp
-                )
+
             }
         }
     }

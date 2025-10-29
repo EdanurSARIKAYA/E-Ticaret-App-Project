@@ -30,12 +30,11 @@ import com.example.e_ticaretappproject.R
 @Composable
 fun CustomBottomBar(navController: NavController){
 
-    val items = listOf("home","favorites","cart","profile")
+    val items = listOf("home","favorites","cart")
     val icons = listOf(
         Icons.Default.Home,
         Icons.Default.Favorite,
-        Icons.Default.ShoppingCart,
-        Icons.Default.Person
+        Icons.Default.ShoppingCart
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route

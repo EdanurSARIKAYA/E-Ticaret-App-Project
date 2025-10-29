@@ -34,6 +34,22 @@ class MainScreenViewModel @Inject constructor(var productsRepository: ProductsRe
         productsList.value = updatedList
         filteredProductsList.value = updatedList
     }
+    fun sortProductsByPriceAscending() {
+        filteredProductsList.value = filteredProductsList.value.sortedBy { it.fiyat }
+    }
+
+    fun sortProductsByPriceDescending() {
+        filteredProductsList.value = filteredProductsList.value.sortedByDescending { it.fiyat }
+    }
+    fun applyFilters(
+        selectedCategories: Set<String>,
+        selectedBrands: Set<String>
+    ) {
+        filteredProductsList.value = productsList.value?.filter {
+            (selectedCategories.isEmpty() || selectedCategories.contains(it.kategori)) &&
+                    (selectedBrands.isEmpty() || selectedBrands.contains(it.marka))
+        }
+    }
     fun searchProducts(searchText: String){
         val products = productsList.value ?: emptyList()
         if(searchText.isBlank()){
