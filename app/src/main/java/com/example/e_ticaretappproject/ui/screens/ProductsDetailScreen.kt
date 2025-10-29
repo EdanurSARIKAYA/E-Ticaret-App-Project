@@ -60,7 +60,7 @@ fun ProductsDetailScreen(
         Scaffold(
             topBar = {
                 CustomTopAppBar(
-                    title = "${currentProduct.kategori} / ${currentProduct.ad}",
+                    title = "${currentProduct.kategori.uppercase()} / ${currentProduct.ad.uppercase()}",
                     showSearch = false,
                     showCart = false,
                     onCartClick = {}

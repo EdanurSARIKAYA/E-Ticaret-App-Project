@@ -71,7 +71,7 @@ fun CartScreen(viewModel: CartScreenViewModel,
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Sepetim",
+                title = "SEPETİM",
                 showSearch = false,
                 showCart = false
             )

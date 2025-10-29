@@ -1,7 +1,9 @@
 package com.example.e_ticaretappproject.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,8 +50,8 @@ fun FavoritesScreen(navController: NavController,viewModel: MainScreenViewModel 
             CustomTopAppBar(
                 title = "FAVORİLER",
                 showSearch = false,
-                showCart = true,
-                onCartClick = {navController.navigate("cart")}
+                showCart = false,
+                onCartClick = {}
             )
         }
     ) { innerPadding ->
@@ -73,35 +76,56 @@ fun FavoriteCustomCard(products: Products){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(8.dp)
+            .height(120.dp)
+            .border(
+                width = 3.dp,
+                color = colorResource(R.color.pink),
+                shape = RoundedCornerShape(16.dp)
+            ),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.white)),
+        elevation = CardDefaults.cardElevation(16.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
             GlideImage(
                 imageModel = "http://kasimadalan.pe.hu/urunler/resimler/${products.resim}",
                 modifier = Modifier
-                    .size(80.dp)
-                    .background(Color.LightGray, shape = RoundedCornerShape(16.dp))
+                    .size(96.dp)
+                    .background(Color.White, shape = RoundedCornerShape(16.dp))
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Text(
-                text = products.ad,
-                fontSize = 20.sp
-            )
-            Text(
-                text = "${products.fiyat} TL",
-                fontSize = 18.sp,
-                color = colorResource(R.color.gray)
-            )
+            Column (
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                Text(
+                    text = products.marka.uppercase(),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(R.color.black)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = products.ad,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = colorResource(R.color.black)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "${products.fiyat} TL",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(R.color.gray)
+                )
+            }
         }
     }
 }
