@@ -2,13 +2,10 @@ package com.example.e_ticaretappproject.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.e_ticaretappproject.ui.viewmodels.CartScreenViewModel
 import com.example.e_ticaretappproject.ui.viewmodels.MainScreenViewModel
@@ -45,7 +42,7 @@ fun AppNavigation(
                 detailsScreenViewModel = productDetailsScreenViewModel
             )
         }
-        composable("favorites") { FavoritesScreen(navController, viewModel = mainScreenViewModel) }
+        composable("favorites") { FavoritesScreen(viewModel = mainScreenViewModel) }
         composable("cart") { CartScreen(viewModel = cartScreenViewModel,navController = navController) }
 
     }

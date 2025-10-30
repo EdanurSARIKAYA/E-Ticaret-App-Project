@@ -1,10 +1,8 @@
 package com.example.e_ticaretappproject.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.e_ticaretappproject.data.entity.CartProducts
-import com.example.e_ticaretappproject.data.entity.Products
 import com.example.e_ticaretappproject.data.repository.ProductsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope

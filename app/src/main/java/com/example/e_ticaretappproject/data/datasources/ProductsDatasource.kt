@@ -1,10 +1,6 @@
 package com.example.e_ticaretappproject.data.datasources
 
-import android.adservices.adid.AdId
-import androidx.compose.material3.CardDefaults
-import com.example.e_ticaretappproject.data.entity.CartProducts
 import com.example.e_ticaretappproject.data.entity.CartProductsResponse
-import com.example.e_ticaretappproject.data.entity.Products
 import com.example.e_ticaretappproject.data.entity.ProductsResponse
 import com.example.e_ticaretappproject.retrofit.ProductsDao
 import kotlinx.coroutines.Dispatchers

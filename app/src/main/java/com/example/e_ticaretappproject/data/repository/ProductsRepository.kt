@@ -1,7 +1,6 @@
 package com.example.e_ticaretappproject.data.repository
 
 import com.example.e_ticaretappproject.data.datasources.ProductsDatasource
-import com.example.e_ticaretappproject.data.entity.Products
 
 class ProductsRepository(var productsDatasource: ProductsDatasource) {
     suspend fun loadAllProducts() = productsDatasource.loadAllProducts()
@@ -15,7 +14,5 @@ class ProductsRepository(var productsDatasource: ProductsDatasource) {
         siparisAdeti: Int,
         kullaniciAdi: String
     ) = productsDatasource.insertToCart(ad,resim,kategori,fiyat,marka,siparisAdeti,kullaniciAdi)
-
-
     suspend fun deleteFromCart(sepetId: Int, kullaniciAdi: String) = productsDatasource.deleteFromCart(sepetId, kullaniciAdi)
 }

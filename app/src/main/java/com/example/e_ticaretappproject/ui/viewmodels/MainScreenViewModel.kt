@@ -1,6 +1,5 @@
 package com.example.e_ticaretappproject.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.e_ticaretappproject.data.entity.Products
@@ -15,6 +14,7 @@ import javax.inject.Inject
 class MainScreenViewModel @Inject constructor(var productsRepository: ProductsRepository) : ViewModel() {
     var productsList = MutableLiveData<List<Products>>()
     var filteredProductsList = MutableLiveData<List<Products>>()
+
     init {
         loadAllProducts()
     }

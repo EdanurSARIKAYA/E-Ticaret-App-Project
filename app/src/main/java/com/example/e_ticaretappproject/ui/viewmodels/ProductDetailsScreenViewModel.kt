@@ -17,16 +17,16 @@ class ProductDetailsScreenViewModel @Inject constructor(var productsRepository: 
         CoroutineScope(Dispatchers.Main).launch {
 
             val currentCart = productsRepository.loadCartProducts(kullaniciAdi).urunler_sepeti
-            val sameProducts = currentCart.filter {
+            val existingProducts = currentCart.filter {
                 it.ad == cartProducts.ad && it.marka == cartProducts.marka
             }
-            if (sameProducts.isNotEmpty()) {
-                val totalQuantity =
-                    sameProducts.sumOf { it.siparisAdeti } + cartProducts.siparisAdeti
+            if (existingProducts.isNotEmpty()) {
+                val totalQuantity = existingProducts.sumOf { it.siparisAdeti } + cartProducts.siparisAdeti
 
-                sameProducts.forEach { oldProduct ->
+                existingProducts.forEach { oldProduct ->
                     productsRepository.deleteFromCart(oldProduct.sepetId, kullaniciAdi)
                 }
+
                 productsRepository.insertToCart(
                     ad = cartProducts.ad,
                     resim = cartProducts.resim,
@@ -36,6 +36,7 @@ class ProductDetailsScreenViewModel @Inject constructor(var productsRepository: 
                     siparisAdeti = totalQuantity,
                     kullaniciAdi = kullaniciAdi
                 )
+
             } else {
                 productsRepository.insertToCart(
                     ad = cartProducts.ad,

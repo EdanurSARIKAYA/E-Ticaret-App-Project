@@ -1,6 +1,5 @@
 package com.example.e_ticaretappproject.ui.screens
 
-import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -33,7 +31,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.e_ticaretappproject.data.entity.Products
 import com.example.e_ticaretappproject.R
 import com.example.e_ticaretappproject.data.entity.CartProducts
 import com.example.e_ticaretappproject.ui.components.CustomTopAppBar
@@ -280,12 +277,10 @@ fun ProductsDetailScreen(
                     }
 
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
-
             }
         }
         )
     }
-    }
+}
 

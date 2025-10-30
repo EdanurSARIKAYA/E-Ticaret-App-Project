@@ -1,7 +1,6 @@
 package com.example.e_ticaretappproject.retrofit
 
 import com.example.e_ticaretappproject.data.entity.CRUDResponse
-import com.example.e_ticaretappproject.data.entity.CartProducts
 import com.example.e_ticaretappproject.data.entity.CartProductsResponse
 import com.example.e_ticaretappproject.data.entity.ProductsResponse
 import retrofit2.http.Field
