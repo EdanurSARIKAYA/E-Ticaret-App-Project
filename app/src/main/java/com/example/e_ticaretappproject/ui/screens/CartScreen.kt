@@ -78,7 +78,8 @@ fun CartScreen(viewModel: CartScreenViewModel,
         },
         bottomBar = {
             if (cartProducts.value.isNotEmpty()) {
-                val totalPrice = cartProducts.value.sumOf { it.fiyat }
+                val totalPrice = cartProducts.value.sumOf { it.fiyat * it.siparisAdeti }
+
 
                 Row(
                     modifier = Modifier
@@ -221,7 +222,7 @@ fun CartScreen(viewModel: CartScreenViewModel,
                     }
 
                     Text(
-                        text = "${products.fiyat} TL",
+                        text = "${products.fiyat * products.siparisAdeti} TL",
                         fontWeight = FontWeight.ExtraBold,
                         color = colorResource(R.color.gray),
                         fontSize = 24.sp

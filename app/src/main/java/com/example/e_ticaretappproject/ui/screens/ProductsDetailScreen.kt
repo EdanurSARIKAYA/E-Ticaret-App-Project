@@ -87,7 +87,7 @@ fun ProductsDetailScreen(
                                 ad = currentProduct.ad,
                                 resim = currentProduct.resim,
                                 kategori = currentProduct.kategori,
-                                fiyat = currentProduct.fiyat * quantity,
+                                fiyat = currentProduct.fiyat,
                                 marka = currentProduct.marka,
                                 siparisAdeti = quantity,
                                 kullaniciAdi = "edanur_sarikaya"

@@ -13,17 +13,41 @@ import javax.inject.Inject
 class ProductDetailsScreenViewModel @Inject constructor(var productsRepository: ProductsRepository): ViewModel() {
     var kullaniciAdi = "edanur_sarikaya"
 
-    fun insertToCart(cartProducts: CartProducts, onSuccess: (() -> Unit)? = null){
+    fun insertToCart(cartProducts: CartProducts, onSuccess: (() -> Unit)? = null) {
         CoroutineScope(Dispatchers.Main).launch {
-            productsRepository.insertToCart(
-                cartProducts.ad,
-                cartProducts.resim,
-                cartProducts.kategori,
-                cartProducts.fiyat,
-                cartProducts.marka,
-                cartProducts.siparisAdeti,
-                 kullaniciAdi
-            )
+
+            val currentCart = productsRepository.loadCartProducts(kullaniciAdi).urunler_sepeti
+            val sameProducts = currentCart.filter {
+                it.ad == cartProducts.ad && it.marka == cartProducts.marka
+            }
+            if (sameProducts.isNotEmpty()) {
+                val totalQuantity =
+                    sameProducts.sumOf { it.siparisAdeti } + cartProducts.siparisAdeti
+
+                sameProducts.forEach { oldProduct ->
+                    productsRepository.deleteFromCart(oldProduct.sepetId, kullaniciAdi)
+                }
+                productsRepository.insertToCart(
+                    ad = cartProducts.ad,
+                    resim = cartProducts.resim,
+                    kategori = cartProducts.kategori,
+                    fiyat = cartProducts.fiyat,
+                    marka = cartProducts.marka,
+                    siparisAdeti = totalQuantity,
+                    kullaniciAdi = kullaniciAdi
+                )
+            } else {
+                productsRepository.insertToCart(
+                    ad = cartProducts.ad,
+                    resim = cartProducts.resim,
+                    kategori = cartProducts.kategori,
+                    fiyat = cartProducts.fiyat,
+                    marka = cartProducts.marka,
+                    siparisAdeti = cartProducts.siparisAdeti,
+                    kullaniciAdi = kullaniciAdi
+                )
+            }
+
             onSuccess?.invoke()
         }
     }
